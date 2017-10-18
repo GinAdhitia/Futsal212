@@ -1,0 +1,32 @@
+Plugin yang dipakai :
+
+css:
+Bootstrap 3.3.7
+Ionicons
+Font Awesome
+jvectormap
+AdminLTE
+skin AdminLTE
+
+datepicker
+daterangepicker
+wysihtml5
+
+
+
+js:
+jquery
+bootstrap
+fastclick
+adminlte
+sparkline
+jvectormap
+SlimScroll
+ChartJS
+
+jQuery UI
+daterangepicker
+datepicker
+WYSIHTML5
+Morris
+Raphael
