@@ -19,7 +19,5 @@ class Home extends CI_Controller{
     $this->load->model('m_home');
     $data2['q_jadwal']=$this->m_home->cekjadwal($hari);
     $this->load->view('home', $data2);
-    $this->load->view('foot');
-    //$this->load->view('script');
   }
 }

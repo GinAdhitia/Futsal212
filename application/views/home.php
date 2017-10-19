@@ -33,7 +33,7 @@ $jam = array(
   "22" => "22:00",
   "23" => "23:00");
 
-  function infoBox($no, $warna) { ?>
+function infoBox($no, $warna) { ?>
   <div class="col-md-3 col-sm-6 col-xs-12">
     <div class="info-box">
       <span class="info-box-icon bg-<?php echo $warna; ?>"><i class="fa fa-futbol-o"></i></span>
@@ -46,34 +46,34 @@ $jam = array(
       </div>
     </div>
   </div>
-  <?php } ?>
+<?php } ?>
 
-  <section class="content">
-    <div class="row">
-      <?php
+<section class="content">
+  <div class="row">
+    <?php
       infoBox("1", "red");
       infoBox("2", "aqua");
       infoBox("3", "yellow");
       infoBox("4", "green");
-      ?>
-    </div>
+    ?>
+  </div>
 
-    <div class="row">
-      <section class="col-lg-12">
-        <div class="box box-danger">
-          <div class="box-header">
-            <i class="fa fa-calendar-check-o"></i>
-            <h3 class="box-title">Jadwal Hari Ini</h3>
-            <div class="box-tools">
-              <body onload="tampilkanwaktu();setInterval('tampilkanwaktu()', 1000);">        
-                <span id="clock"></span> 
-              </body>
-            </div>
+  <div class="row">
+    <section class="col-lg-12">
+      <div class="box box-danger">
+        <div class="box-header">
+          <i class="fa fa-calendar-check-o"></i>
+          <h3 class="box-title">Jadwal Hari Ini</h3>
+          <div class="box-tools">
+            <body onload="tampilkanwaktu();setInterval('tampilkanwaktu()', 1000);">        
+              <span id="clock"></span> 
+            </body>
           </div>
+        </div>
 
-          <div class="box-body">
-            <table class="table table-bordered table-hovered">
-             <thead>
+        <div class="box-body">
+          <table class="table table-bordered table-hovered">
+            <thead>
               <tr>
                 <th width="100px"></th>
                 <?php
@@ -117,115 +117,115 @@ $jam = array(
     </section>
   </div>
 </section>
+
 <div class="modal fade" id="modal-default">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title">Booking</h4>
-        </div>
-        <div class="modal-body">
-          <div class="box-body">
-            <div class="form-group">
-              <label for="nama" class="col-sm-2 control-label">Nama</label>
-              <div class="col-sm-10">
-                <input type="text" class="form-control" id="nama" name="nama" placeholder="Nama">
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="status" class="col-sm-2 control-label">Status</label>
-              <div class="col-sm-10">                         
-                <select name="status" class="form-control" id="status">
-                  <option value="1">Lunas</option>
-                  <option value="2">DP</option>
-                </select>
-              </div>
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">Booking</h4>
+      </div>
+      <div class="modal-body">
+        <div class="box-body">
+          <div class="form-group">
+            <label for="nama" class="col-sm-2 control-label">Nama</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="nama" name="nama" placeholder="Nama">
             </div>
           </div>
-          <input type="hidden" name="jam" id="jam">
-          <input type="hidden" name="lapang" id="lapang">
+          <div class="form-group">
+            <label for="status" class="col-sm-2 control-label">Status</label>
+            <div class="col-sm-10">                         
+              <select name="status" class="form-control" id="status">
+                <option value="1">Lunas</option>
+                <option value="2">DP</option>
+              </select>
+            </div>
+          </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary saveBook">Save changes</button>
-        </div>
+        <input type="hidden" name="jam" id="jam" />
+        <input type="hidden" name="lapang" id="lapang" />
       </div>
-      <!-- /.modal-content -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary saveBook">Save changes</button>
+      </div>
     </div>
-    <!-- /.modal-dialog -->
   </div>
-  <?php 
+</div>
+
+<?php
+  $this->load->view('foot');
   $this->load->view('script');
-  ?>
-  <script>
+?>
+<script>
+  // $('#modal-default').modal('show');
 
-    // $('#modal-default').modal('show');
+  $(document).ready(function () {
+    $('.sidebar-menu').tree()
+  });
 
-    $(document).ready(function () {
-    	$('.sidebar-menu').tree()
+  getJadwal();
+
+  function getJadwal() {
+    $('.jadwal').each(function() {
+      var key = $(this);
+      var lapang = key.attr('data-lapang');
+      var jam = key.attr('data-jam');
+
+      $.ajax({
+        type: 'POST',
+        url: "data.php",
+        data: { lapang : lapang, jam : jam},
+        dataType : 'JSON',
+        beforeSend: function() {},
+        success: function(data) {
+          status = data.status;
+          if (status == 'OK') {
+            key.addClass("text-center");
+            key.text(data.content.nama);
+            key.attr('data-booking','1');
+            if(data.content.status == 1){	            			
+              key.addClass("bg-success");
+            }
+            else{        			
+              key.addClass("bg-danger");
+            }
+          }
+          else{
+            key.attr('data-booking','0');
+            key.addClass('setForm');
+          }
+        },
+        error: function(xhr) {},
+        complete: function(data) {}
+      });
     });
 
-    getJadwal();
+    // setFormClicked();
+	setTimeout(getJadwal, 5000);
+  }
 
-    function getJadwal() {
-      $('.jadwal').each(function() {
-       var key 	= $(this);
-       var lapang 	= key.attr('data-lapang');
-       var jam 	= key.attr('data-jam');
-
-       $.ajax({
-         type: 'POST',
-         url: "data.php",
-         data: { lapang : lapang, jam : jam},
-         dataType : 'JSON',
-         beforeSend: function() {},
-         success: function(data) {
-          status 	= data.status;
-          if (status == 'OK') {
-           key.addClass("text-center");
-           key.text(data.content.nama);
-           key.attr('data-booking','1');
-           if(data.content.status == 1){	            			
-            key.addClass("bg-success");
-          }
-          else{        			
-            key.addClass("bg-danger");
-          }
-        }
-        else{
-         key.attr('data-booking','0');
-         key.addClass('setForm');
-       }
-     },
-     error: function(xhr) {},
-     complete: function(data) {}
-   });
-     });
-
-	    // setFormClicked();
-	    setTimeout(getJadwal, 5000);
-   }
-
-   $("td").click(function(){
-    key 		= $(this);
-    booking 	= key.attr('data-booking');
-    lapang 		= key.attr('data-lapang');
-    jam 		= key.attr('data-jam');
+  $("td").click(function(){
+    key  = $(this);
+    booking = key.attr('data-booking');
+    lapang = key.attr('data-lapang');
+    jam = key.attr('data-jam');
 
     if (booking == 0) {
-     $('#modal-default').modal('show');
-     $('#jam').val(jam);
-     $('#lapang').val(lapang);
-   }
- });
+      $('#modal-default').modal('show');
+      $('#jam').val(jam);
+      $('#lapang').val(lapang);
+    }
+  });
 
-
-   $(".saveBook").click(function () {
-    var lapang 	= $('#lapang').val();
-    var jam 	= $('#jam').val();
-    var nama 	= $('#nama').val();
-    var status 	= $('#status').val();
+  $(".saveBook").click(function () {
+    var lapang = $('#lapang').val();
+    var jam = $('#jam').val();
+    var nama = $('#nama').val();
+    var status = $('#status').val();
 
     $.ajax({
       type: 'POST',
@@ -234,18 +234,21 @@ $jam = array(
       dataType : 'JSON',
       beforeSend: function() {},
       success: function(data) {
-       status 	= data.status;
-       if (status == 'OK') {
-         $('#modal-default').modal('hide');
-         $('#nama').val("");
-         $('#status').val("1").change();
-       }
-       else{
-        console.log(data.message);
-      }
-    },
-    error: function(xhr) {alert('transport error !');},
-    complete: function(data) {}
-  });
+        status = data.status;
+        if (status == 'OK') {
+          $('#modal-default').modal('hide');
+          $('#nama').val("");
+          $('#status').val("1").change();
+        }
+        else{
+          console.log(data.message);
+        }
+      },
+      error: function(xhr) {alert('transport error !');},
+      complete: function(data) {}
+    });
   });
 </script>
+
+</body>
+</html>

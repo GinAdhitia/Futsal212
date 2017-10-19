@@ -14,9 +14,9 @@ class Member extends CI_Controller{
   }
       
   public function index() {
-    $this->load->view('member/main');
-    $this->load->view('foot');
-    $this->load->view('script');
+    $this->load->model('m_member');
+    $data['q_member']=$this->m_member->lihatmember();
+    $this->load->view('member/main', $data);
   }
 
 }
