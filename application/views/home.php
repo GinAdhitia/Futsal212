@@ -9,80 +9,53 @@
 </script>
 
 <?php
-  function cekJadwal($play) { ?>
-    <td>
-      <div class="btn-group">
-        <a class="dropdown-toggle" data-toggle="dropdown">
-        <?php echo $play ?></a>
-        <ul class="dropdown-menu pull-right" role="menu">
-          <li><a href="#">Booking / Lihat Detail</a></li>
-          <li><a href="#">Pindah Jadwal</a></li>
-          <li class="divider"></li>
-          <li><a href="#">Batal</a></li>
-        </ul>
+$lapang = array(
+  1 => "Lapang 1",
+  2 => "Lapang 2",
+  3 => "Lapang 3",
+  4 => "Lapang 4");
+
+$jam = array(
+  "8" => "08:00",
+  "9" => "09:00",
+  "10" => "10:00",
+  "11" => "11:00",
+  "12" => "12:00",
+  "13" => "13:00",
+  "14" => "14:00",
+  "15" => "15:00",
+  "16" => "16:00",
+  "17" => "17:00",
+  "18" => "18:00",
+  "19" => "19:00",
+  "20" => "20:00",
+  "21" => "21:00",
+  "22" => "22:00",
+  "23" => "23:00");
+
+function infoBox($no, $warna) { ?>
+  <div class="col-md-3 col-sm-6 col-xs-12">
+    <div class="info-box">
+      <span class="info-box-icon bg-<?php echo $warna; ?>"><i class="fa fa-futbol-o"></i></span>
+      <div class="info-box-content">
+        <span class="info-box-number">Lap <?php echo $no; ?></span>
+        <span class="info-box-text">
+          Status Main<br />
+          Nama Penyewa / Jam
+        </span>
       </div>
-    </td>
-  <?php }
-//  foreach($q_jadwal as $jadwal) {
-//    echo "
-//    <td>".$jadwal->fs_id." <a href='".base_url()."keranjang/detailpemesanan/".$jadwal->fs_id."'>Edit</a></td>";
-//  }
-?>
+    </div>
+  </div>
+<?php } ?>
 
 <section class="content">
   <div class="row">
-
-    <div class="col-md-3 col-sm-6 col-xs-12">
-      <div class="info-box">
-        <span class="info-box-icon bg-red"><i class="fa fa-futbol-o"></i></span>
-        <div class="info-box-content">
-          <span class="info-box-number">Lap 1</span>
-          <span class="info-box-text">
-            Play<br />
-            Jam
-          </span>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-md-3 col-sm-6 col-xs-12">
-      <div class="info-box">
-        <span class="info-box-icon bg-aqua"><i class="fa fa-futbol-o"></i></span>
-        <div class="info-box-content">
-          <span class="info-box-number">Lap 2</span>
-          <span class="info-box-text">
-            Play<br />
-            Jam            
-          </span>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-md-3 col-sm-6 col-xs-12">
-      <div class="info-box">
-        <span class="info-box-icon bg-yellow"><i class="fa fa-futbol-o"></i></span>
-        <div class="info-box-content">
-          <span class="info-box-number">Lap 3</span>
-          <span class="info-box-text">
-            Play<br />
-            Jam            
-          </span>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-md-3 col-sm-6 col-xs-12">
-      <div class="info-box">
-        <span class="info-box-icon bg-green"><i class="fa fa-futbol-o"></i></span>
-        <div class="info-box-content">
-          <span class="info-box-number">Lap 4</span>
-          <span class="info-box-text">
-            Play<br />
-            Jam            
-          </span>
-        </div>
-      </div>
-    </div>
+  <?php
+    infoBox("1", "red");
+    infoBox("2", "aqua");
+    infoBox("3", "yellow");
+    infoBox("4", "green");
+  ?>
   </div>
 
   <div class="row">
@@ -97,46 +70,35 @@
             </body>
           </div>
         </div>
+
         <div class="box-body">
-          <table class="table table-bordered">
-            <tr>
-              <th style="width: 70px"></th>
-              <?php
-                date_default_timezone_set('Asia/Jakarta');
-                $jam = date('H');
-                for ($x=8;$x<24;$x++){
-                  if ($jam == $x) {
-                    echo "<th class='success'>$x:00</th>";
-                  } else {
-                    echo "<th>$x:00</th>";
+          <table class="table table-bordered table-hovered">
+           <thead>
+              <tr>
+                <th width="100px"></th>
+                <?php
+                  foreach ($lapang as $key => $value) {
+                    echo "<th class='text-center'>$value</th>";
                   }
+                ?>
+              </tr>
+            </thead>
+            <tbody>
+            <?php
+              $jamsekarang = date('H');
+              foreach ($jam as $key => $value) {
+                if ($jamsekarang == $key) {
+                  echo "<tr><th class='success text-center'>".$value."</th>";
+                } else {
+                  echo "<tr><th class='text-center'>".$value."</th>";
                 }
-              ?>
-            </tr>
-            <tr>
-              <th>Lap 1</th>
-              <?php
-                for ($x=8;$x<24;$x++){ cekJadwal("$x"); }
-              ?>
-            </tr>
-            <tr>
-              <th>Lap 2</th>
-              <?php
-                for ($x=8;$x<24;$x++){ cekJadwal("$x"); }
-              ?>
-            </tr>
-            <tr>
-              <th>Lap 3</th>
-              <?php
-                for ($x=8;$x<24;$x++){ cekJadwal("$x"); }
-              ?>
-            </tr>
-            <tr>
-              <th>Lap 4</th>
-              <?php
-                for ($x=8;$x<24;$x++){ cekJadwal("$x"); }
-              ?>
-            </tr>
+                foreach ($lapang as $k => $v) {
+                  echo "<td class='jadwal' data-lapang='$k' data-jam='$key' data-booking=''></td>";
+                }
+                echo "</tr>";
+              }
+            ?>
+            </tbody>
           </table>
         </div>
 
@@ -145,8 +107,9 @@
             <tr>
               <td class='success' style="width: 120px">Jam Sekarang</td>
               <td class='danger' style="width: 120px">Booking</td>
-              <td class='warning' style="width: 120px">Booking + DP</td>
+              <td class='warning' style="width: 120px">DP</td>
               <td class='info' style="width: 120px">Lunas</td>
+              <td style="width: 120px"><i class="fa fa-star"></i> Member</td>
             </tr>
           </table>
         </div>
@@ -154,3 +117,95 @@
     </section>
   </div>
 </section>
+
+<script>
+
+    // $('#modal-default').modal('show');
+
+  	$(document).ready(function () {
+    	$('.sidebar-menu').tree()
+  	});
+
+  	getJadwal();
+
+  	function getJadwal() {
+  		$('.jadwal').each(function() {
+  			var key 	= $(this);
+	       	var lapang 	= key.attr('data-lapang');
+	       	var jam 	= key.attr('data-jam');
+
+	       	$.ajax({
+	            type: 'POST',
+	            url: "data.php",
+	            data: { lapang : lapang, jam : jam},
+	            dataType : 'JSON',
+	            beforeSend: function() {},
+	            success: function(data) {
+	            	status 	= data.status;
+	            	if (status == 'OK') {
+	            		key.addClass("text-center");
+	            		key.text(data.content.nama);
+	            		key.attr('data-booking','1');
+	            		if(data.content.status == 1){	            			
+	            			key.addClass("bg-success");
+	            		}
+	            		else{        			
+	            			key.addClass("bg-danger");
+	            		}
+	            	}
+	            	else{
+	            		key.attr('data-booking','0');
+	            		key.addClass('setForm');
+	            	}
+	            },
+	            error: function(xhr) {},
+	            complete: function(data) {}
+	        });
+	    });
+
+	    // setFormClicked();
+	    setTimeout(getJadwal, 5000);
+  	}
+
+  	$("td").click(function(){
+        key 		= $(this);
+        booking 	= key.attr('data-booking');
+	    lapang 		= key.attr('data-lapang');
+	    jam 		= key.attr('data-jam');
+
+        if (booking == 0) {
+        	$('#modal-default').modal('show');
+        	$('#jam').val(jam);
+        	$('#lapang').val(lapang);
+        }
+    });
+
+
+    $(".saveBook").click(function () {
+       	var lapang 	= $('#lapang').val();
+       	var jam 	= $('#jam').val();
+       	var nama 	= $('#nama').val();
+       	var status 	= $('#status').val();
+
+       	$.ajax({
+            type: 'POST',
+            url: "save.php",
+            data: { lapang : lapang, jam : jam , nama : nama , status : status },
+            dataType : 'JSON',
+            beforeSend: function() {},
+            success: function(data) {
+            	status 	= data.status;
+            	if (status == 'OK') {
+        			$('#modal-default').modal('hide');
+			       	$('#nama').val("");
+			       	$('#status').val("1").change();
+            	}
+            	else{
+            		console.log(data.message);
+            	}
+            },
+            error: function(xhr) {alert('transport error !');},
+            complete: function(data) {}
+        });
+    });
+</script>
