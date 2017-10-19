@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 16, 2017 at 03:59 PM
+-- Generation Time: Oct 18, 2017 at 12:37 PM
 -- Server version: 10.1.26-MariaDB
 -- PHP Version: 7.1.8
 
@@ -151,6 +151,14 @@ CREATE TABLE `f_member` (
   `fm_email` varchar(30) NOT NULL,
   `fm_status` enum('0','1','2') NOT NULL COMMENT 'Kadalursa / Blacklist / Aktif'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `f_member`
+--
+
+INSERT INTO `f_member` (`fm_id`, `fm_kode`, `fm_nama`, `fm_jenis`, `fm_buat`, `fm_kadaluarsa`, `fm_penanggung`, `fm_alamat`, `fm_telepon`, `fm_email`, `fm_status`) VALUES
+(1, 'ST000001', 'Udin Sutisna', '1', '2017-10-10', '2018-10-10', 'Udin Sutisna', 'Jalan 1 RT 2 RW 3 Kel 4 Kec 5 Karawang', '085123456789', 'udin.su@gmail.com', '2'),
+(2, 'FC000001', 'Podomoro FC', '0', '2017-10-18', '2018-10-18', 'Agung', 'Jalan 70 RT 3 RW 13 Kel 55 Kec 71 Karawang', '089876543210', 'agung@podomoro.com', '2');
 
 -- --------------------------------------------------------
 
@@ -329,6 +337,7 @@ CREATE TABLE `f_sewa` (
   `fs_id` int(6) NOT NULL,
   `fs_nama` varchar(15) NOT NULL COMMENT 'Nama Penyewa',
   `fs_member` varchar(3) NOT NULL COMMENT 'Y(idmember) / N',
+  `fs_telepon` varchar(30) NOT NULL,
   `fs_reservasi` date NOT NULL COMMENT 'Tanggal Reservasi',
   `fs_admin` varchar(35) NOT NULL COMMENT 'Nama Admin',
   `fs_tanggal` date NOT NULL COMMENT 'Tanggal Main',
@@ -346,9 +355,9 @@ CREATE TABLE `f_sewa` (
 -- Dumping data for table `f_sewa`
 --
 
-INSERT INTO `f_sewa` (`fs_id`, `fs_nama`, `fs_member`, `fs_reservasi`, `fs_admin`, `fs_tanggal`, `fs_sewa`, `fs_harga`, `fs_diskon`, `fs_total`, `fs_bayar`, `fs_ket`, `fs_komen`, `fs_status`) VALUES
-(1, 'Arif', 'N', '2017-10-03', 'Bambang', '2017-10-09', 1, 100000, 0, 100000, '1', '', '', '1'),
-(2, 'Usman', 'N', '2017-10-05', 'Dwi', '2017-10-09', 2, 200000, 20000, 180000, '1', '', '', '0');
+INSERT INTO `f_sewa` (`fs_id`, `fs_nama`, `fs_member`, `fs_telepon`, `fs_reservasi`, `fs_admin`, `fs_tanggal`, `fs_sewa`, `fs_harga`, `fs_diskon`, `fs_total`, `fs_bayar`, `fs_ket`, `fs_komen`, `fs_status`) VALUES
+(1, 'Arif', 'N', '', '2017-10-03', 'Bambang', '2017-10-09', 1, 100000, 0, 100000, '1', '', '', '1'),
+(2, 'Usman', 'N', '', '2017-10-05', 'Dwi', '2017-10-09', 2, 200000, 20000, 180000, '1', '', '', '0');
 
 --
 -- Indexes for dumped tables
@@ -464,7 +473,7 @@ ALTER TABLE `f_logmember`
 -- AUTO_INCREMENT for table `f_member`
 --
 ALTER TABLE `f_member`
-  MODIFY `fm_id` int(3) NOT NULL AUTO_INCREMENT;
+  MODIFY `fm_id` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `f_pembayaran`
 --
